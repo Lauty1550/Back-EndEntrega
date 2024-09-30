@@ -22,4 +22,7 @@ export class PlanoDto {
 
   @IsString()
   archivoUrl: string;
+
+  @IsString()
+  id: string;
 }

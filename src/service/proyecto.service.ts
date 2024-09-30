@@ -23,9 +23,11 @@ export class ProyectoService {
       antecedente: proyecto.antecedente,
       aprobacion: proyecto.aprobacion,
       planos: proyecto.planos.map((plano) => ({
+        id: plano._id,
         especialidad: plano.especialidad,
         etiquetas: plano.etiquetas,
         archivoUrl: plano.archivoUrl,
+        // proyectoId: plano.proyectoId,
       })),
     };
   }
