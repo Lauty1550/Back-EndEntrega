@@ -9,6 +9,8 @@ import {
   NotFoundException,
   BadRequestException,
   HttpStatus,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { PlanoService } from 'src/service/plano.service';
 import { CreatePlanoDto } from 'src/dto/create.plano.dto';
@@ -25,6 +27,7 @@ export class PlanoController {
   ) {}
 
   @Post('Crear')
+  @UsePipes(new ValidationPipe())
   @ApiOperation({ summary: 'Crear un plano' })
   async create(@Body() createPlanoDto: CreatePlanoDto) {
     const proyecto = await this.planoService.create(createPlanoDto);
@@ -32,6 +35,7 @@ export class PlanoController {
   }
 
   @Post('Agregar-Plano/:proyectoId')
+  @UsePipes(new ValidationPipe())
   @ApiOperation({ summary: 'Crear plano y asociarlo a proyecto' })
   async createPlano(
     @Param('proyectoId') proyectoId: string,

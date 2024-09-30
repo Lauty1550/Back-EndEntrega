@@ -9,6 +9,8 @@ import {
   NotFoundException,
   BadRequestException,
   HttpStatus,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { ProyectoService } from 'src/service/proyecto.service';
 import { CreateProyectoDto } from 'src/dto/create.proyecto.dto';
@@ -21,6 +23,7 @@ export class ProyectoController {
   constructor(private proyectoService: ProyectoService) {}
 
   @Post('Crear')
+  @UsePipes(new ValidationPipe())
   @ApiOperation({ summary: 'Crear un proyecto' })
   async create(@Body() createProyectoDto: CreateProyectoDto) {
     const proyecto = await this.proyectoService.create(createProyectoDto);

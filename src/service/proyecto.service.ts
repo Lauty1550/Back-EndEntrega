@@ -54,6 +54,7 @@ export class ProyectoService {
   async findAll(): Promise<ProyectoDto[]> {
     const proyectos = this.proyectoModel.find().populate('planos').exec();
     return (await proyectos).map((proyecto) => this.mapToDto(proyecto));
+    // return this.proyectoModel.find().exec();
   }
   async findOne(id: string): Promise<ProyectoDto | null> {
     const proyecto = await this.proyectoModel

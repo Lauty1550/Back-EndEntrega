@@ -1,8 +1,8 @@
 export enum TipoObra {
-  A_CONSTRUIR = 'A CONSTRUIR',
-  A_AMPLIAR = 'A AMPLIAR',
-  A_REFACCIONAR = 'A REFACCIONAR',
-  A_DEMOLER = 'A DEMOLER',
-  A_DEMOLER_Y_CONSTRUIR = 'A DEMOLER Y CONSTRUIR',
-  A_DOCUMENTAR = 'A DOCUMENTAR',
+  A_CONSTRUIR = 'A Construir',
+  A_AMPLIAR = 'A Ampliar',
+  A_REFACCIONAR = 'A Refaccionar',
+  A_DEMOLER = 'A Demoler',
+  A_DEMOLER_Y_CONSTRUIR = 'A Demoler Y Construir',
+  A_DOCUMENTAR = 'A Documentar',
 }
