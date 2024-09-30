@@ -12,5 +12,6 @@ import { Proyecto, ProyectoSchema } from 'src/schema/proyecto.schema';
   ],
   controllers: [ProyectoController],
   providers: [ProyectoService],
+  exports: [ProyectoService, MongooseModule],
 })
 export class ProyectoModule {}

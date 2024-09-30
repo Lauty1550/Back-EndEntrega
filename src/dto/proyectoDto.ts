@@ -13,6 +13,9 @@ import {
 } from 'class-validator';
 import { TipoDestino } from 'src/enum/tipo.destino.enum';
 import { TipoObra } from 'src/enum/tipo.obra.enum';
+import { Plano } from 'src/schema/plano.schema';
+import { CreatePlanoDto } from './create.plano.dto';
+import { PlanoDto } from './plano.dto';
 
 export class ProyectoDto {
   @IsOptional()
@@ -45,4 +48,7 @@ export class ProyectoDto {
   @IsOptional()
   @IsBoolean()
   aprobacion: boolean;
+
+  @IsOptional()
+  planos: PlanoDto[];
 }

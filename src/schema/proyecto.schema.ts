@@ -1,8 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import mongoose, { HydratedDocument } from 'mongoose';
 import { spec } from 'node:test/reporters';
 import { TipoDestino } from 'src/enum/tipo.destino.enum';
 import { TipoObra } from 'src/enum/tipo.obra.enum';
+import { Plano } from './plano.schema';
 
 export type ProyectoDocument = HydratedDocument<Proyecto>;
 
@@ -31,6 +32,9 @@ export class Proyecto {
 
   @Prop({ required: false })
   aprobacion: boolean;
+
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Plano' }] })
+  planos: Plano[];
 
   _id?: string;
 }

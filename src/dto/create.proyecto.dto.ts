@@ -11,6 +11,7 @@ import {
   IsOptional,
   IsEnum,
   IsBoolean,
+  IsArray,
 } from 'class-validator';
 import { TipoDestino } from 'src/enum/tipo.destino.enum';
 import { TipoObra } from 'src/enum/tipo.obra.enum';
@@ -42,4 +43,9 @@ export class CreateProyectoDto {
   @IsOptional()
   @IsBoolean()
   aprobacion: boolean;
+
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  planos: string[];
 }

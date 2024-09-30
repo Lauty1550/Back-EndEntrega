@@ -28,7 +28,7 @@ export class ProyectoController {
   }
 
   @Get('Get-All')
-  @ApiOperation({ summary: 'Obtener todas las organizaciones' })
+  @ApiOperation({ summary: 'Obtener todos los proyectos' })
   async findAll() {
     return this.proyectoService.findAll();
   }

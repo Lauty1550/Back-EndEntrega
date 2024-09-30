@@ -22,6 +22,11 @@ export class ProyectoService {
       escala: proyecto.escala,
       antecedente: proyecto.antecedente,
       aprobacion: proyecto.aprobacion,
+      planos: proyecto.planos.map((plano) => ({
+        especialidad: plano.especialidad,
+        etiquetas: plano.etiquetas,
+        archivoUrl: plano.archivoUrl,
+      })),
     };
   }
 
@@ -30,12 +35,29 @@ export class ProyectoService {
     return newProyecto.save();
   }
 
-  async findAll(): Promise<Proyecto[]> {
-    const proyectos = this.proyectoModel.find().exec();
+  async addPlanoToProyecto(
+    proyectoId: string,
+    planoId: string,
+  ): Promise<Proyecto> {
+    return this.proyectoModel
+      .findByIdAndUpdate(
+        proyectoId,
+        { $push: { planos: planoId } },
+        { new: true },
+      )
+      .populate('planos')
+      .exec();
+  }
+
+  async findAll(): Promise<ProyectoDto[]> {
+    const proyectos = this.proyectoModel.find().populate('planos').exec();
     return (await proyectos).map((proyecto) => this.mapToDto(proyecto));
   }
   async findOne(id: string): Promise<ProyectoDto | null> {
-    const proyecto = await this.proyectoModel.findById(id).exec();
+    const proyecto = await this.proyectoModel
+      .findById(id)
+      .populate('planos')
+      .exec();
     return this.mapToDto(proyecto);
   }
 
