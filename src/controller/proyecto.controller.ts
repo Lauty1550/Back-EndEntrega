@@ -36,6 +36,12 @@ export class ProyectoController {
     return this.proyectoService.findAll();
   }
 
+  @Get('user/:userId')
+  @ApiOperation({ summary: 'Obtener por user ID' })
+  async getProyectoByUserId(@Param('userId') userId: string) {
+    return this.proyectoService.getProyectoByUserId(userId);
+  }
+
   @Get(':id')
   @ApiOperation({ summary: 'Obtener por id' })
   async findOne(@Param('id') id: string) {
@@ -44,7 +50,7 @@ export class ProyectoController {
     }
     const proyecto = await this.proyectoService.findOne(id);
     if (!proyecto) {
-      throw new NotFoundException('Proyeco no encontrado');
+      throw new NotFoundException('Proyecto no encontrado');
     }
     return { status: HttpStatus.OK, proyecto };
   }
@@ -62,6 +68,33 @@ export class ProyectoController {
     return {
       status: HttpStatus.OK,
       messege: 'Proyecto eliminado exitosamente',
+    };
+  }
+
+  @Put('Update/:id')
+  @ApiOperation({ summary: 'Actualizar un proyecto' })
+  @UsePipes(new ValidationPipe()) // Valida la entrada usando DTO
+  async update(
+    @Param('id') id: string,
+    @Body() createProyectoDto: CreateProyectoDto,
+  ) {
+    if (!isValidObjectId(id)) {
+      throw new BadRequestException(`El ID ${id} no es válido`);
+    }
+
+    const proyectoActualizado = await this.proyectoService.update(
+      id,
+      createProyectoDto,
+    );
+
+    if (!proyectoActualizado) {
+      throw new NotFoundException(`Proyecto con id ${id} no encontrado`);
+    }
+
+    return {
+      status: HttpStatus.OK,
+      message: 'Proyecto actualizado exitosamente',
+      proyecto: proyectoActualizado,
     };
   }
 }

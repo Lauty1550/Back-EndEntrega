@@ -51,4 +51,7 @@ export class ProyectoDto {
 
   @IsOptional()
   planos: PlanoDto[];
+
+  @IsOptional()
+  userId: string;
 }

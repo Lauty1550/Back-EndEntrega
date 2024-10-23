@@ -36,6 +36,9 @@ export class Proyecto {
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Plano' }] })
   planos: Plano[];
 
+  @Prop({ required: false })
+  userId: string;
+
   _id?: string;
 }
 export const ProyectoSchema = SchemaFactory.createForClass(Proyecto);
