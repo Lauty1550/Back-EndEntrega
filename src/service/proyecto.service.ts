@@ -22,6 +22,7 @@ export class ProyectoService {
       escala: proyecto.escala,
       antecedente: proyecto.antecedente,
       aprobacion: proyecto.aprobacion,
+      userId: proyecto.userId,
       planos: proyecto.planos.map((plano) => ({
         id: plano._id,
         especialidad: plano.especialidad,
@@ -56,6 +57,15 @@ export class ProyectoService {
     return (await proyectos).map((proyecto) => this.mapToDto(proyecto));
     // return this.proyectoModel.find().exec();
   }
+
+  async getProyectoByUserId(userId: string): Promise<ProyectoDto[]> {
+    const proyectos = this.proyectoModel
+      .find({ userId })
+      .populate('planos')
+      .exec();
+    return (await proyectos).map((proyecto) => this.mapToDto(proyecto));
+  }
+
   async findOne(id: string): Promise<ProyectoDto | null> {
     const proyecto = await this.proyectoModel
       .findById(id)
@@ -66,5 +76,21 @@ export class ProyectoService {
 
   async remove(id: string): Promise<any> {
     return this.proyectoModel.deleteOne({ _id: id }).exec();
+  }
+
+  async update(
+    id: string,
+    createProyectoDto: CreateProyectoDto,
+  ): Promise<Proyecto> {
+    const proyecto = await this.proyectoModel.findById(id).exec();
+
+    if (!proyecto) {
+      throw new NotFoundException(`Proyecto con id ${id} no encontrado`);
+    }
+
+    // Actualiza los campos del proyecto con los nuevos valores del DTO
+    Object.assign(proyecto, createProyectoDto);
+
+    return proyecto.save();
   }
 }

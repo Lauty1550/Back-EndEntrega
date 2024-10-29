@@ -48,4 +48,8 @@ export class CreateProyectoDto {
   @IsArray()
   @IsString({ each: true })
   planos: string[];
+
+  @IsOptional()
+  @IsString()
+  userId: string;
 }
