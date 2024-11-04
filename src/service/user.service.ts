@@ -26,4 +26,13 @@ export class userService {
     const users = this.userModel.find().exec();
     return (await users).map((user) => this.mapToDto(user));
   }
+
+  async findByAuth0Id(id: string): Promise<UserDto | null> {
+    const user = await this.userModel.findOne({ id }).exec();
+    if (user) {
+      return this.mapToDto(user);
+    } else {
+      return null;
+    }
+  }
 }

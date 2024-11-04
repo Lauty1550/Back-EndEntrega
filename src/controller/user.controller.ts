@@ -20,6 +20,13 @@ export class UserController {
   @UsePipes(new ValidationPipe())
   @ApiOperation({ summary: 'Crear un usuario' })
   async create(@Body() createUserDto: CreateUserDto) {
+    const userOptional = await this.userService.findByAuth0Id(createUserDto.id);
+    if (userOptional) {
+      return {
+        status: HttpStatus.BAD_REQUEST,
+        message: 'Usuario ya existente',
+      };
+    }
     try {
       const user = await this.userService.create(createUserDto);
       return { status: HttpStatus.OK, message: 'Usuario creado' };
