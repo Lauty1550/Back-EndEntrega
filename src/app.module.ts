@@ -6,6 +6,7 @@ import { OrganizacionModule } from './module/organizacion.module';
 import { FormaModule } from './module/forma.module';
 import { ProyectoModule } from './module/proyecto.module';
 import { PlanoModule } from './module/plano.module';
+import { UserModule } from './module/user.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { PlanoModule } from './module/plano.module';
     FormaModule,
     ProyectoModule,
     PlanoModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],

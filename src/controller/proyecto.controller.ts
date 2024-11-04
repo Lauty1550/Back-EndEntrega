@@ -27,7 +27,7 @@ export class ProyectoController {
   @ApiOperation({ summary: 'Crear un proyecto' })
   async create(@Body() createProyectoDto: CreateProyectoDto) {
     const proyecto = await this.proyectoService.create(createProyectoDto);
-    return { status: HttpStatus.OK, messege: 'Proyecto creado exitosamente' };
+    return { status: HttpStatus.OK, message: 'Proyecto creado exitosamente' };
   }
 
   @Get('Get-All')
@@ -67,7 +67,7 @@ export class ProyectoController {
     }
     return {
       status: HttpStatus.OK,
-      messege: 'Proyecto eliminado exitosamente',
+      message: 'Proyecto eliminado exitosamente',
     };
   }
 
