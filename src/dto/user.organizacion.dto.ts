@@ -1,6 +1,6 @@
 import { IsOptional, IsString } from 'class-validator';
 
-export class UserDto {
+export class UserOrganizacionDto {
   @IsOptional()
   @IsString()
   id: string;
@@ -10,12 +10,4 @@ export class UserDto {
 
   @IsString()
   email: string;
-
-  @IsOptional()
-  @IsString()
-  picture: string;
-
-  @IsOptional()
-  @IsString()
-  organizacionId: string;
 }

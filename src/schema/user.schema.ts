@@ -16,5 +16,10 @@ export class User {
 
   @Prop({ required: true })
   picture: string;
+
+  @Prop({ required: false })
+  organizacionId: string;
+
+  _id?: string;
 }
 export const UserSchema = SchemaFactory.createForClass(User);

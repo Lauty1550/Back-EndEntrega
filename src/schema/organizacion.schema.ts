@@ -1,8 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
-import { spec } from 'node:test/reporters';
-import { v4 as uuidv4 } from 'uuid';
+import mongoose, { HydratedDocument } from 'mongoose';
 import { Forma, FormaSchema } from 'src/schema/forma.schema';
+import { User } from './user.schema';
 
 export type OrganizacionDocument = HydratedDocument<Organizacion>;
 
@@ -19,5 +18,8 @@ export class Organizacion {
 
   @Prop({ type: FormaSchema, required: true })
   forma: Forma;
+
+  @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }] })
+  users: User[];
 }
 export const OrganizacionSchema = SchemaFactory.createForClass(Organizacion);
