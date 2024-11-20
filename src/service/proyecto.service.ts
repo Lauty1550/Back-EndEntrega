@@ -88,8 +88,24 @@ export class ProyectoService {
       throw new NotFoundException(`Proyecto con id ${id} no encontrado`);
     }
 
-    // Actualiza los campos del proyecto con los nuevos valores del DTO
-    Object.assign(proyecto, createProyectoDto);
+    if (createProyectoDto.nombreProyecto) {
+      proyecto.nombreProyecto = createProyectoDto.nombreProyecto;
+    }
+    if (createProyectoDto.ubicacion) {
+      proyecto.ubicacion = createProyectoDto.ubicacion;
+    }
+    if (createProyectoDto.antecedente) {
+      proyecto.antecedente = createProyectoDto.antecedente;
+    }
+    if (createProyectoDto.escala) {
+      proyecto.escala = createProyectoDto.escala;
+    }
+    if (createProyectoDto.obra) {
+      proyecto.obra = createProyectoDto.obra;
+    }
+    if (createProyectoDto.destino) {
+      proyecto.destino = createProyectoDto.destino;
+    }
 
     return proyecto.save();
   }

@@ -19,6 +19,7 @@ export class OrganizacionService {
 
   private mapToDto(organizacion: Organizacion): OrganizacionDto {
     return {
+      id: organizacion._id.toString(),
       nombre: organizacion.nombre,
       direccion: organizacion.direccion,
       datosContacto: organizacion.datosContacto,
@@ -54,6 +55,9 @@ export class OrganizacionService {
       .findById(id)
       .populate('users')
       .exec();
+    if (!organizacion) {
+      throw new NotFoundException(`Organizacion con id ${id} no encontrada`);
+    }
     return this.mapToDto(organizacion);
   }
 
@@ -73,5 +77,25 @@ export class OrganizacionService {
       )
       .populate('users')
       .exec();
+  }
+
+  async update(
+    id: string,
+    organizacionDto: OrganizacionDto,
+  ): Promise<Organizacion> {
+    const organizacion = await this.organizacionModel.findById(id).exec();
+    if (!organizacion) {
+      throw new NotFoundException(`Organizacion con id ${id} no encontrada`);
+    }
+    if (organizacionDto.nombre) {
+      organizacion.nombre = organizacionDto.nombre;
+    }
+    if (organizacionDto.direccion) {
+      organizacion.direccion = organizacionDto.direccion;
+    }
+    if (organizacionDto.datosContacto) {
+      organizacion.datosContacto = organizacionDto.datosContacto;
+    }
+    return organizacion.save();
   }
 }

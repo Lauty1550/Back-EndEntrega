@@ -14,6 +14,10 @@ import { UserDto } from './user.dto';
 import { UserOrganizacionDto } from './user.organizacion.dto';
 
 export class OrganizacionDto {
+  @IsOptional()
+  @IsString()
+  id?: string;
+
   @IsNotEmpty()
   @IsString()
   nombre: string;

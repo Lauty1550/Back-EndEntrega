@@ -16,11 +16,15 @@ import { ProyectoService } from 'src/service/proyecto.service';
 import { CreateProyectoDto } from 'src/dto/create.proyecto.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { isValidObjectId } from 'mongoose';
+import { ValidationService } from 'src/service/validation.service';
 
 @ApiTags('Proyecto')
 @Controller('Proyecto')
 export class ProyectoController {
-  constructor(private proyectoService: ProyectoService) {}
+  constructor(
+    private proyectoService: ProyectoService,
+    private validationService: ValidationService,
+  ) {}
 
   @Post('Crear')
   @UsePipes(new ValidationPipe())
@@ -45,9 +49,7 @@ export class ProyectoController {
   @Get(':id')
   @ApiOperation({ summary: 'Obtener por id' })
   async findOne(@Param('id') id: string) {
-    if (!isValidObjectId(id)) {
-      throw new BadRequestException(`El ID ${id} no es valido`);
-    }
+    this.validationService.validateObjectId(id);
     const proyecto = await this.proyectoService.findOne(id);
     if (!proyecto) {
       throw new NotFoundException('Proyecto no encontrado');
@@ -58,9 +60,7 @@ export class ProyectoController {
   @Delete('Borrar/:id')
   @ApiOperation({ summary: 'Borrar un proyecto' })
   async remove(@Param('id') id: string) {
-    if (!isValidObjectId(id)) {
-      throw new BadRequestException(`El ID ${id} no es valido`);
-    }
+    this.validationService.validateObjectId(id);
     const result = await this.proyectoService.remove(id);
     if (result.deletedCount === 0) {
       throw new NotFoundException('No se encontro el proyecto');
@@ -78,10 +78,7 @@ export class ProyectoController {
     @Param('id') id: string,
     @Body() createProyectoDto: CreateProyectoDto,
   ) {
-    if (!isValidObjectId(id)) {
-      throw new BadRequestException(`El ID ${id} no es válido`);
-    }
-
+    this.validationService.validateObjectId(id);
     const proyectoActualizado = await this.proyectoService.update(
       id,
       createProyectoDto,

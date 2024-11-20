@@ -16,10 +16,12 @@ export class Organizacion {
   @Prop({ required: true })
   datosContacto: string;
 
-  @Prop({ type: FormaSchema, required: true })
+  @Prop({ type: FormaSchema, required: false })
   forma: Forma;
 
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }] })
   users: User[];
+
+  _id?: string;
 }
 export const OrganizacionSchema = SchemaFactory.createForClass(Organizacion);

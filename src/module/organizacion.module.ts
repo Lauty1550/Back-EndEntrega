@@ -6,12 +6,14 @@ import {
   Organizacion,
   OrganizacionSchema,
 } from 'src/schema/organizacion.schema';
+import { ValidationModule } from './validation.module';
 
 @Module({
   imports: [
     MongooseModule.forFeature([
       { name: Organizacion.name, schema: OrganizacionSchema },
     ]),
+    ValidationModule,
   ],
   controllers: [OrganizacionController],
   providers: [OrganizacionService],
