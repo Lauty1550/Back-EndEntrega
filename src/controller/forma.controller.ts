@@ -14,11 +14,15 @@ import { FormaService } from 'src/service/forma.service';
 import { CreateFormaDto } from 'src/dto/create.forma.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { isValidObjectId } from 'mongoose';
+import { ValidationService } from 'src/service/validation.service';
 
 @ApiTags('Forma')
 @Controller('Forma')
 export class FormaController {
-  constructor(private formaService: FormaService) {}
+  constructor(
+    private formaService: FormaService,
+    private validationService: ValidationService,
+  ) {}
 
   @Post('Crear')
   @ApiOperation({ summary: 'Crear una forma' })
@@ -36,9 +40,7 @@ export class FormaController {
   @Get(':id')
   @ApiOperation({ summary: 'Obtener por id' })
   async findOne(@Param('id') id: string) {
-    if (!isValidObjectId(id)) {
-      throw new BadRequestException(`El ID ${id} no es valido`);
-    }
+    this.validationService.validateObjectId(id);
     const forma = await this.formaService.findOne(id);
     if (!forma) {
       throw new NotFoundException('Forma no encontrada');
@@ -49,9 +51,7 @@ export class FormaController {
   @Delete('Borrar/:id')
   @ApiOperation({ summary: 'Eliinar una forma' })
   async remove(@Param('id') id: string) {
-    if (!isValidObjectId(id)) {
-      throw new BadRequestException(`El ID ${id} no es valido`);
-    }
+    this.validationService.validateObjectId(id);
     const result = await this.formaService.remove(id);
 
     if (result.deletedCount === 0) {

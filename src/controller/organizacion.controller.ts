@@ -15,7 +15,6 @@ import {
 import { OrganizacionService } from 'src/service/organizacion.service';
 import { CreateOrganizacionDto } from 'src/dto/create.organizacion.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { isValidObjectId } from 'mongoose';
 import { OrganizacionDto } from 'src/dto/organizacion.dto';
 import { ValidationService } from 'src/service/validation.service';
 

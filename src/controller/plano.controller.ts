@@ -17,6 +17,7 @@ import { CreatePlanoDto } from 'src/dto/create.plano.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { isValidObjectId } from 'mongoose';
 import { ProyectoService } from 'src/service/proyecto.service';
+import { ValidationService } from 'src/service/validation.service';
 
 @ApiTags('Plano')
 @Controller('Plano')
@@ -24,6 +25,7 @@ export class PlanoController {
   constructor(
     private planoService: PlanoService,
     private proyectoService: ProyectoService,
+    private validationService: ValidationService,
   ) {}
 
   @Post('Crear')
@@ -56,9 +58,7 @@ export class PlanoController {
   @Get(':id')
   @ApiOperation({ summary: 'Obtener por ID' })
   async findOne(@Param('id') id: string) {
-    if (!isValidObjectId(id)) {
-      throw new BadRequestException(`El ID ${id} no es valido`);
-    }
+    this.validationService.validateObjectId(id);
     const plano = await this.planoService.findOne(id);
     if (!plano) {
       throw new NotFoundException('No se encontro el plano');
@@ -68,9 +68,7 @@ export class PlanoController {
   @Delete('Borrar/:id')
   @ApiOperation({ summary: 'Borrar un plano' })
   async remove(@Param('id') id: string) {
-    if (!isValidObjectId(id)) {
-      throw new BadRequestException(`El ID ${id} no es valido`);
-    }
+    this.validationService.validateObjectId(id);
     const result = await this.planoService.remove(id);
     if (result.deletedCount === 0) {
       throw new NotFoundException('No se encontro el plano');

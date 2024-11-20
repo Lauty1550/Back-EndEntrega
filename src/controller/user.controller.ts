@@ -19,6 +19,7 @@ import { CreateUserDto } from 'src/dto/create.user.dto';
 import { UserDto } from 'src/dto/user.dto';
 import { OrganizacionService } from 'src/service/organizacion.service';
 import { userService } from 'src/service/user.service';
+import { ValidationService } from 'src/service/validation.service';
 
 @ApiTags('User')
 @Controller('User')
@@ -26,6 +27,7 @@ export class UserController {
   constructor(
     private userService: userService,
     private organizacionService: OrganizacionService,
+    private validationService: ValidationService,
   ) {}
 
   @Post('Crear')
@@ -59,9 +61,7 @@ export class UserController {
     @Param('id') id: string,
   ) {
     try {
-      if (!isValidObjectId(id)) {
-        throw new BadRequestException(`El ID ${id} no es valido`);
-      }
+      this.validationService.validateObjectId(id);
       const user = await this.userService.findOne(id);
       if (!user) {
         throw new NotFoundException('Usuario no encontrado');
@@ -91,9 +91,7 @@ export class UserController {
   @Get(':id')
   @ApiOperation({ summary: 'Obtener por id' })
   async findOne(@Param('id') id: string) {
-    if (!isValidObjectId(id)) {
-      throw new BadRequestException(`El ID ${id} no es valido`);
-    }
+    this.validationService.validateObjectId(id);
     const user = await this.userService.findOne(id);
     if (!user) {
       throw new NotFoundException('Usuario no encontrado');
