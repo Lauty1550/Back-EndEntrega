@@ -55,6 +55,12 @@ export class PlanoController {
     return this.planoService.findAll();
   }
 
+  @Get('Get/:proyectoId')
+  @ApiOperation({ summary: 'Obtener por protecto ID' })
+  async getPlanosByProyectoId(@Param('proyectoId') proyectoId: string) {
+    return this.planoService.getPlanosByProyectoID(proyectoId);
+  }
+
   @Get(':id')
   @ApiOperation({ summary: 'Obtener por ID' })
   async findOne(@Param('id') id: string) {
@@ -65,6 +71,7 @@ export class PlanoController {
     }
     return { status: HttpStatus.OK, plano };
   }
+
   @Delete('Borrar/:id')
   @ApiOperation({ summary: 'Borrar un plano' })
   async remove(@Param('id') id: string) {
