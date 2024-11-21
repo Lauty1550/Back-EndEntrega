@@ -24,4 +24,18 @@ export class PlanoService {
   async remove(id: string): Promise<any> {
     return this.planoModel.deleteOne({ _id: id }).exec();
   }
+
+  async addFile(id: string, fileId: string): Promise<any> {
+    try {
+      const plano = await this.planoModel.findById(id).exec();
+      if (!plano) {
+        throw new NotFoundException(`Plano con id ${id} no encontrado`);
+      }
+      plano.archivoUrl = fileId;
+      return plano.save();
+    } catch (error) {
+      console.error('Error al agregar archivo: ', error);
+      throw error;
+    }
+  }
 }

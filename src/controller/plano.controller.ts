@@ -75,4 +75,20 @@ export class PlanoController {
     }
     return { status: HttpStatus.OK, messege: 'Plano eliminado exitosamente' };
   }
+
+  @Put('AgregarArchivo')
+  @ApiOperation({ summary: 'Agregar archivo al plano' })
+  async addFile(id: string, fileId: string) {
+    this.validationService.validateObjectId(id);
+    try {
+      this.planoService.addFile(id, fileId);
+      return { status: HttpStatus.OK, messege: 'Archivo agregado' };
+    } catch (error) {
+      console.error('Error al agregar archivo', error);
+      throw new BadRequestException(
+        'Error al agregar el archivo',
+        error.message,
+      );
+    }
+  }
 }

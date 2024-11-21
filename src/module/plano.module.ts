@@ -14,5 +14,6 @@ import { ValidationModule } from './validation.module';
   ],
   controllers: [PlanoController],
   providers: [PlanoService],
+  exports: [PlanoService],
 })
 export class PlanoModule {}
