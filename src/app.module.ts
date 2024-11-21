@@ -7,6 +7,7 @@ import { FormaModule } from './module/forma.module';
 import { ProyectoModule } from './module/proyecto.module';
 import { PlanoModule } from './module/plano.module';
 import { UserModule } from './module/user.module';
+import { FileModule } from './module/file.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { UserModule } from './module/user.module';
     ProyectoModule,
     PlanoModule,
     UserModule,
+    FileModule,
   ],
   controllers: [AppController],
   providers: [AppService],
