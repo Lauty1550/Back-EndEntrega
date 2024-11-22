@@ -43,10 +43,16 @@ export class PlanoController {
     @Param('proyectoId') proyectoId: string,
     @Body() createPlanoDto: CreatePlanoDto,
   ) {
-    createPlanoDto.proyectoId = proyectoId;
-    const plano = await this.planoService.create(createPlanoDto);
-    await this.proyectoService.addPlanoToProyecto(proyectoId, plano._id);
-    return { status: HttpStatus.OK, messege: 'Plano vinculado exitosamente' };
+    try {
+      this.validationService.validateObjectId(proyectoId);
+      createPlanoDto.proyectoId = proyectoId;
+      const plano = await this.planoService.create(createPlanoDto);
+      await this.proyectoService.addPlanoToProyecto(proyectoId, plano._id);
+      return { status: HttpStatus.OK, messege: 'Plano vinculado exitosamente' };
+    } catch (error) {
+      console.error('Error crear plano', error);
+      throw new BadRequestException('Error al crear plano', error.message);
+    }
   }
 
   @Get('Get-All')

@@ -4,6 +4,7 @@ export class PlanoDto {
   @IsString()
   especialidad: string;
 
+  @IsOptional()
   @IsArray()
   etiquetas: string[];
 

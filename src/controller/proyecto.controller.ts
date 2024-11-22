@@ -54,7 +54,7 @@ export class ProyectoController {
     if (!proyecto) {
       throw new NotFoundException('Proyecto no encontrado');
     }
-    return { status: HttpStatus.OK, proyecto };
+    return proyecto;
   }
 
   @Delete('Borrar/:id')
