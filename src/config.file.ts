@@ -1,8 +1,8 @@
 import { BadRequestException } from '@nestjs/common';
-import { diskStorage } from 'multer';
+import { memoryStorage } from 'multer';
 
 export const multerConfig = {
-  storage: diskStorage({}),
+  storage: memoryStorage(),
   limits: {
     fileSize: 2 * 1024 * 1024, // Límite de MB
   },
