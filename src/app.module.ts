@@ -8,6 +8,7 @@ import { ProyectoModule } from './module/proyecto.module';
 import { PlanoModule } from './module/plano.module';
 import { UserModule } from './module/user.module';
 import { FileModule } from './module/file.module';
+import { PingModule } from './module/ping.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { FileModule } from './module/file.module';
     PlanoModule,
     UserModule,
     FileModule,
+    PingModule,
   ],
   controllers: [AppController],
   providers: [AppService],
