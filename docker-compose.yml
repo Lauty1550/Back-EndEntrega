@@ -1,61 +1,18 @@
 services:
-  node1:
+  app:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: node1
+    container_name: app
     ports:
-      - '3001:3000'
+      - '3000:3000' # Expone el puerto 3000 de la app
     networks:
       - app-network
     volumes:
       - .:/app
     environment:
       - NODE_ENV=development
-    command: npm run start:dev
-
-  node2:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: node2
-    ports:
-      - '3002:3000'
-    networks:
-      - app-network
-    volumes:
-      - .:/app
-    environment:
-      - NODE_ENV=development
-    command: npm run start:dev
-
-  node3:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: node3
-    ports:
-      - '3003:3000'
-    networks:
-      - app-network
-    volumes:
-      - .:/app
-    environment:
-      - NODE_ENV=development
-    command: npm run start:dev
-
-  nginx:
-    image: nginx:latest
-    container_name: nginx
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-    ports:
-      - '80:80'
-    networks:
-      - app-network
-    depends_on:
-      - node1
-      - node2
+    command: npm run start
 
 networks:
   app-network:
