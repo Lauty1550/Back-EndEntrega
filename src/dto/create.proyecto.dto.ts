@@ -52,4 +52,7 @@ export class CreateProyectoDto {
   @IsOptional()
   @IsString()
   userId: string;
+
+  @IsString()
+  organizacionId: string;
 }

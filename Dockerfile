@@ -18,5 +18,5 @@ COPY . .
 # Expone el puerto de la aplicación
 EXPOSE 3000
 
-# Comando para iniciar en modo dev
+# Comando para iniciar 
 CMD ["npm", "run", "start"]

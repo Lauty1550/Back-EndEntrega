@@ -46,6 +46,14 @@ export class ProyectoController {
     return this.proyectoService.getProyectoByUserId(userId);
   }
 
+  @Get('organizacion/:organizacionId')
+  @ApiOperation({ summary: 'Obtener por organizacion ID' })
+  async getProyectosByOrganizacioNId(
+    @Param('organizacionId') organizacionId: string,
+  ) {
+    return this.proyectoService.getProyectosByOrganizacionId(organizacionId);
+  }
+
   @Get(':id')
   @ApiOperation({ summary: 'Obtener por id' })
   async findOne(@Param('id') id: string) {

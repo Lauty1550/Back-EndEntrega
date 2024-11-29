@@ -22,7 +22,7 @@ export class ProyectoService {
       escala: proyecto.escala,
       antecedente: proyecto.antecedente,
       aprobacion: proyecto.aprobacion,
-      userId: proyecto.userId,
+      // userId: proyecto.userId,
       planos: proyecto.planos.map((plano) => ({
         id: plano._id,
         especialidad: plano.especialidad,
@@ -61,6 +61,16 @@ export class ProyectoService {
   async getProyectoByUserId(userId: string): Promise<ProyectoDto[]> {
     const proyectos = this.proyectoModel
       .find({ userId })
+      .populate('planos')
+      .exec();
+    return (await proyectos).map((proyecto) => this.mapToDto(proyecto));
+  }
+
+  async getProyectosByOrganizacionId(
+    organizacionId: string,
+  ): Promise<ProyectoDto[]> {
+    const proyectos = this.proyectoModel
+      .find({ organizacionId })
       .populate('planos')
       .exec();
     return (await proyectos).map((proyecto) => this.mapToDto(proyecto));
