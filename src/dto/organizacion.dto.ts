@@ -10,7 +10,7 @@ import {
   IsArray,
 } from 'class-validator';
 import { CreateFormaDto } from './create.forma.dto';
-import { UserDto } from './user.dto';
+
 import { UserOrganizacionDto } from './user.organizacion.dto';
 
 export class OrganizacionDto {
@@ -30,9 +30,9 @@ export class OrganizacionDto {
   @IsString()
   datosContacto: string;
 
-  @IsNotEmpty()
-  forma: CreateFormaDto;
+  @IsOptional()
+  forma?: CreateFormaDto;
 
   @IsOptional()
-  users: UserOrganizacionDto[];
+  users?: UserOrganizacionDto[];
 }

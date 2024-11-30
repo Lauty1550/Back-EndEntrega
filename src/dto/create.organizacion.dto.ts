@@ -24,11 +24,11 @@ export class CreateOrganizacionDto {
   @IsString()
   datosContacto: string;
 
-  @IsNotEmpty()
-  forma: CreateFormaDto;
+  @IsOptional()
+  forma?: CreateFormaDto;
 
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
-  users: string[];
+  users?: string[];
 }

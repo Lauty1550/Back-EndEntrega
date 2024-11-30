@@ -39,7 +39,7 @@ export class Proyecto {
   @Prop({ required: false })
   userId: string;
 
-  @Prop({ required: true })
+  @Prop({ required: false })
   organizacionId: string;
 
   _id?: string;

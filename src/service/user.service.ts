@@ -9,13 +9,14 @@ import { User } from 'src/schema/user.schema';
 export class userService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
-  private mapToDto(user: User): UserDto {
+  private mapToDto(user: User & { organizacionId: any }): UserDto {
     return {
       id: user._id,
       name: user.name,
       email: user.email,
       picture: user.email,
-      organizacionId: user.organizacionId,
+      organizacionId: user.organizacionId?.id,
+      organizacionName: user.organizacionId?.nombre ?? 'Sin organizacion',
     };
   }
 
@@ -25,12 +26,18 @@ export class userService {
   }
 
   async findAll(): Promise<UserDto[]> {
-    const users = this.userModel.find().exec();
+    const users = this.userModel
+      .find()
+      .populate('organizacionId', 'nombre')
+      .exec();
     return (await users).map((user) => this.mapToDto(user));
   }
 
   async findByAuth0Id(id: string): Promise<UserDto | null> {
-    const user = await this.userModel.findOne({ id }).exec();
+    const user = await this.userModel
+      .findOne({ id })
+      .populate('organizacionId', 'nombre')
+      .exec();
     if (user) {
       return this.mapToDto(user);
     } else {
@@ -38,7 +45,10 @@ export class userService {
     }
   }
   async findOne(id: string): Promise<UserDto | null> {
-    const user = await this.userModel.findById(id).exec();
+    const user = await this.userModel
+      .findById(id)
+      .populate('organizacionId', 'nombre')
+      .exec();
     return this.mapToDto(user);
   }
   async updateUserOrganizacion(

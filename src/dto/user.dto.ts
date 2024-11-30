@@ -17,5 +17,9 @@ export class UserDto {
 
   @IsOptional()
   @IsString()
-  organizacionId: string;
+  organizacionId?: string;
+
+  @IsOptional()
+  @IsString()
+  organizacionName?: string;
 }

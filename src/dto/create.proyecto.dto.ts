@@ -42,7 +42,7 @@ export class CreateProyectoDto {
 
   @IsOptional()
   @IsBoolean()
-  aprobacion: boolean;
+  aprobacion?: boolean;
 
   @IsOptional()
   @IsArray()
@@ -53,6 +53,7 @@ export class CreateProyectoDto {
   @IsString()
   userId: string;
 
+  @IsOptional()
   @IsString()
-  organizacionId: string;
+  organizacionId?: string;
 }
