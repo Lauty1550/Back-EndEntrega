@@ -17,6 +17,7 @@ export class CreatePlanoDto {
   @IsString()
   especialidad: string;
 
+  @IsOptional()
   @IsArray()
   etiquetas: string[];
 

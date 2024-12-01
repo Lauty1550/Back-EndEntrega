@@ -22,7 +22,7 @@ export class ProyectoService {
       escala: proyecto.escala,
       antecedente: proyecto.antecedente,
       aprobacion: proyecto.aprobacion,
-      userId: proyecto.userId,
+      // userId: proyecto.userId,
       planos: proyecto.planos.map((plano) => ({
         id: plano._id,
         especialidad: plano.especialidad,
@@ -66,6 +66,16 @@ export class ProyectoService {
     return (await proyectos).map((proyecto) => this.mapToDto(proyecto));
   }
 
+  async getProyectosByOrganizacionId(
+    organizacionId: string,
+  ): Promise<ProyectoDto[]> {
+    const proyectos = this.proyectoModel
+      .find({ organizacionId })
+      .populate('planos')
+      .exec();
+    return (await proyectos).map((proyecto) => this.mapToDto(proyecto));
+  }
+
   async findOne(id: string): Promise<ProyectoDto | null> {
     const proyecto = await this.proyectoModel
       .findById(id)
@@ -88,8 +98,24 @@ export class ProyectoService {
       throw new NotFoundException(`Proyecto con id ${id} no encontrado`);
     }
 
-    // Actualiza los campos del proyecto con los nuevos valores del DTO
-    Object.assign(proyecto, createProyectoDto);
+    if (createProyectoDto.nombreProyecto) {
+      proyecto.nombreProyecto = createProyectoDto.nombreProyecto;
+    }
+    if (createProyectoDto.ubicacion) {
+      proyecto.ubicacion = createProyectoDto.ubicacion;
+    }
+    if (createProyectoDto.antecedente) {
+      proyecto.antecedente = createProyectoDto.antecedente;
+    }
+    if (createProyectoDto.escala) {
+      proyecto.escala = createProyectoDto.escala;
+    }
+    if (createProyectoDto.obra) {
+      proyecto.obra = createProyectoDto.obra;
+    }
+    if (createProyectoDto.destino) {
+      proyecto.destino = createProyectoDto.destino;
+    }
 
     return proyecto.save();
   }

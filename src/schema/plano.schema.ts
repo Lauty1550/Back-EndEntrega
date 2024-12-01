@@ -9,7 +9,7 @@ export class Plano {
   @Prop({ required: true })
   especialidad: string;
 
-  @Prop({ required: true })
+  @Prop({ required: false })
   etiquetas: string[];
 
   @Prop({ required: true })

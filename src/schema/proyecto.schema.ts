@@ -39,6 +39,9 @@ export class Proyecto {
   @Prop({ required: false })
   userId: string;
 
+  @Prop({ required: false })
+  organizacionId: string;
+
   _id?: string;
 }
 export const ProyectoSchema = SchemaFactory.createForClass(Proyecto);

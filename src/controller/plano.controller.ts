@@ -17,6 +17,7 @@ import { CreatePlanoDto } from 'src/dto/create.plano.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { isValidObjectId } from 'mongoose';
 import { ProyectoService } from 'src/service/proyecto.service';
+import { ValidationService } from 'src/service/validation.service';
 
 @ApiTags('Plano')
 @Controller('Plano')
@@ -24,6 +25,7 @@ export class PlanoController {
   constructor(
     private planoService: PlanoService,
     private proyectoService: ProyectoService,
+    private validationService: ValidationService,
   ) {}
 
   @Post('Crear')
@@ -41,10 +43,16 @@ export class PlanoController {
     @Param('proyectoId') proyectoId: string,
     @Body() createPlanoDto: CreatePlanoDto,
   ) {
-    createPlanoDto.proyectoId = proyectoId;
-    const plano = await this.planoService.create(createPlanoDto);
-    await this.proyectoService.addPlanoToProyecto(proyectoId, plano._id);
-    return { status: HttpStatus.OK, messege: 'Plano vinculado exitosamente' };
+    try {
+      this.validationService.validateObjectId(proyectoId);
+      createPlanoDto.proyectoId = proyectoId;
+      const plano = await this.planoService.create(createPlanoDto);
+      await this.proyectoService.addPlanoToProyecto(proyectoId, plano._id);
+      return { status: HttpStatus.OK, messege: 'Plano vinculado exitosamente' };
+    } catch (error) {
+      console.error('Error crear plano', error);
+      throw new BadRequestException('Error al crear plano', error.message);
+    }
   }
 
   @Get('Get-All')
@@ -53,28 +61,47 @@ export class PlanoController {
     return this.planoService.findAll();
   }
 
+  @Get('Get/:proyectoId')
+  @ApiOperation({ summary: 'Obtener por protecto ID' })
+  async getPlanosByProyectoId(@Param('proyectoId') proyectoId: string) {
+    return this.planoService.getPlanosByProyectoID(proyectoId);
+  }
+
   @Get(':id')
   @ApiOperation({ summary: 'Obtener por ID' })
   async findOne(@Param('id') id: string) {
-    if (!isValidObjectId(id)) {
-      throw new BadRequestException(`El ID ${id} no es valido`);
-    }
+    this.validationService.validateObjectId(id);
     const plano = await this.planoService.findOne(id);
     if (!plano) {
       throw new NotFoundException('No se encontro el plano');
     }
     return { status: HttpStatus.OK, plano };
   }
+
   @Delete('Borrar/:id')
   @ApiOperation({ summary: 'Borrar un plano' })
   async remove(@Param('id') id: string) {
-    if (!isValidObjectId(id)) {
-      throw new BadRequestException(`El ID ${id} no es valido`);
-    }
+    this.validationService.validateObjectId(id);
     const result = await this.planoService.remove(id);
     if (result.deletedCount === 0) {
       throw new NotFoundException('No se encontro el plano');
     }
     return { status: HttpStatus.OK, messege: 'Plano eliminado exitosamente' };
+  }
+
+  @Put('AgregarArchivo')
+  @ApiOperation({ summary: 'Agregar archivo al plano' })
+  async addFile(id: string, fileId: string) {
+    this.validationService.validateObjectId(id);
+    try {
+      this.planoService.addFile(id, fileId);
+      return { status: HttpStatus.OK, messege: 'Archivo agregado' };
+    } catch (error) {
+      console.error('Error al agregar archivo', error);
+      throw new BadRequestException(
+        'Error al agregar el archivo',
+        error.message,
+      );
+    }
   }
 }

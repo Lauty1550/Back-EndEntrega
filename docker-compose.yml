@@ -1,0 +1,20 @@
+name: FloorPlan
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: NestJS
+    ports:
+      - '3000:3000' # Expone el puerto 3000 de la app
+    networks:
+      - app-network
+    volumes:
+      - .:/app:cached
+    environment:
+      - NODE_ENV=development
+    command: npm run start
+
+networks:
+  app-network:
+    driver: bridge
