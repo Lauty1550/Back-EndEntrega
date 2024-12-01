@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { CreateUserDto } from 'src/dto/create.user.dto';
 import { UserDto } from 'src/dto/user.dto';
 import { User } from 'src/schema/user.schema';
+import { ValidationService } from './validation.service';
 
 @Injectable()
 export class userService {
@@ -44,6 +45,7 @@ export class userService {
       return null;
     }
   }
+
   async findOne(id: string): Promise<UserDto | null> {
     const user = await this.userModel
       .findById(id)
@@ -51,6 +53,7 @@ export class userService {
       .exec();
     return this.mapToDto(user);
   }
+
   async updateUserOrganizacion(
     userId: string,
     organizacionId: string,
@@ -64,5 +67,14 @@ export class userService {
     if (!user) {
       throw new NotFoundException('Usuario no encontrado');
     }
+  }
+
+  async removeUserFromOrg(userId: string): Promise<User> {
+    const user = await this.userModel.findById(userId).exec();
+    if (!user) {
+      throw new NotFoundException(`User con id ${userId} no encontrado`);
+    }
+    user.organizacionId = null;
+    return user.save();
   }
 }

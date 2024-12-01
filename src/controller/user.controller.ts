@@ -17,6 +17,7 @@ import { NotFoundError } from 'rxjs';
 import { CreateOrganizacionDto } from 'src/dto/create.organizacion.dto';
 import { CreateUserDto } from 'src/dto/create.user.dto';
 import { UserDto } from 'src/dto/user.dto';
+import { Organizacion } from 'src/schema/organizacion.schema';
 import { OrganizacionService } from 'src/service/organizacion.service';
 import { userService } from 'src/service/user.service';
 import { ValidationService } from 'src/service/validation.service';
@@ -97,5 +98,17 @@ export class UserController {
       throw new NotFoundException('Usuario no encontrado');
     }
     return { status: HttpStatus.OK, user };
+  }
+
+  @Put('Remove-From-Org/:id')
+  @ApiOperation({ summary: 'Eliminar usuario de la organizacion' })
+  async removeFromOrg(@Param('id') id: string) {
+    this.validationService.validateObjectId(id);
+    try {
+      const user = await this.userService.removeUserFromOrg(id);
+      return { status: HttpStatus.OK, message: 'Usuario desvinculado' };
+    } catch (error) {
+      throw error('Error al desvincular', error);
+    }
   }
 }
