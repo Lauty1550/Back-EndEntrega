@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { OrganizacionController } from 'src/controller/organizacion.controller';
 import { OrganizacionService } from 'src/service/organizacion.service';
@@ -7,6 +7,7 @@ import {
   OrganizacionSchema,
 } from 'src/schema/organizacion.schema';
 import { ValidationModule } from './validation.module';
+import { UserModule } from './user.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { ValidationModule } from './validation.module';
       { name: Organizacion.name, schema: OrganizacionSchema },
     ]),
     ValidationModule,
+    forwardRef(() => UserModule),
   ],
   controllers: [OrganizacionController],
   providers: [OrganizacionService],

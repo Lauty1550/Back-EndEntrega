@@ -2,8 +2,10 @@ import {
   BadRequestException,
   Body,
   Controller,
+  forwardRef,
   Get,
   HttpStatus,
+  Inject,
   NotFoundException,
   Param,
   Post,
@@ -19,14 +21,15 @@ import { CreateUserDto } from 'src/dto/create.user.dto';
 import { UserDto } from 'src/dto/user.dto';
 import { Organizacion } from 'src/schema/organizacion.schema';
 import { OrganizacionService } from 'src/service/organizacion.service';
-import { userService } from 'src/service/user.service';
+import { UserService } from 'src/service/user.service';
 import { ValidationService } from 'src/service/validation.service';
 
 @ApiTags('User')
 @Controller('User')
 export class UserController {
   constructor(
-    private userService: userService,
+    private userService: UserService,
+    @Inject(forwardRef(() => OrganizacionService))
     private organizacionService: OrganizacionService,
     private validationService: ValidationService,
   ) {}
@@ -98,6 +101,16 @@ export class UserController {
       throw new NotFoundException('Usuario no encontrado');
     }
     return { status: HttpStatus.OK, user };
+  }
+
+  @Get('/Auth0Id/:id')
+  @ApiOperation({ summary: 'Obtener por auth0Id' })
+  async findByAuth0Id(@Param('id') id: string) {
+    const user = await this.userService.findByAuth0Id(id);
+    if (!user) {
+      throw new NotFoundException('Usuario no encontrado');
+    }
+    return user;
   }
 
   @Put('Remove-From-Org/:id')

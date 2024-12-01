@@ -15,7 +15,6 @@ import {
 import { ProyectoService } from 'src/service/proyecto.service';
 import { CreateProyectoDto } from 'src/dto/create.proyecto.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { isValidObjectId } from 'mongoose';
 import { ValidationService } from 'src/service/validation.service';
 
 @ApiTags('Proyecto')

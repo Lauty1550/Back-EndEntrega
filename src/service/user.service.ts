@@ -7,7 +7,7 @@ import { User } from 'src/schema/user.schema';
 import { ValidationService } from './validation.service';
 
 @Injectable()
-export class userService {
+export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
   private mapToDto(user: User & { organizacionId: any }): UserDto {
