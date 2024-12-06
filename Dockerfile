@@ -6,10 +6,10 @@ WORKDIR /app
 # Copia los archivos necesarios para instalar dependencias
 COPY package*.json ./
 
-# Instala dependencias
+# Instala dependencias de la aplicación
 RUN npm install
 
-# Instala CLI de NestJS globalmente
+# Instala la CLI de NestJS globalmente
 RUN npm install -g @nestjs/cli
 
 # Copia el resto del proyecto
@@ -18,5 +18,5 @@ COPY . .
 # Expone el puerto de la aplicación
 EXPOSE 3000
 
-# Comando para iniciar 
-CMD ["npm", "run", "start"]
+# Usa una variable de entorno para definir el comando de inicio
+CMD ["sh", "-c", "npm run ${NODE_ENV}"]
