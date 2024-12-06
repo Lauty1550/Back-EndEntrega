@@ -10,6 +10,7 @@ import { UserModule } from './module/user.module';
 import { FileModule } from './module/file.module';
 import { PingModule } from './module/ping.module';
 import { ConfigModule } from '@nestjs/config';
+import { CleanBaseModule } from './module/cleanBase.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { ConfigModule } from '@nestjs/config';
     UserModule,
     FileModule,
     PingModule,
+    CleanBaseModule,
   ],
   controllers: [AppController],
   providers: [AppService],
