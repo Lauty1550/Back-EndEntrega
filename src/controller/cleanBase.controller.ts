@@ -17,11 +17,23 @@ export class CleanDataBaseController {
         HttpStatus.BAD_REQUEST,
       );
     }
+    // Lista de colecciones a borrar
+    const coleccionesEspecificas = [
+      'formas',
+      'proyectos',
+      'planos',
+      'organizacions',
+      'users',
+    ];
 
-    const colecciones = Object.keys(this.connection.collections);
-    for (const coleccion of colecciones) {
+    for (const coleccion of coleccionesEspecificas) {
       const elemento = this.connection.collections[coleccion];
-      await elemento.deleteMany({});
+      if (elemento) {
+        await elemento.deleteMany({});
+        //   console.log(`Colección ${coleccion} limpiada.`);
+      } else {
+        //  console.log(`Colección ${coleccion} no encontrada.`);
+      }
     }
 
     return { status: HttpStatus.OK, messege: 'Base limpiada' };
