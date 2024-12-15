@@ -75,7 +75,7 @@ export class PlanoController {
     if (!plano) {
       throw new NotFoundException('No se encontro el plano');
     }
-    return { status: HttpStatus.OK, plano };
+    return plano;
   }
 
   @Delete('Borrar/:id')

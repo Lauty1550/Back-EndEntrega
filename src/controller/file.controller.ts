@@ -13,6 +13,8 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { multerConfig } from 'src/config.file';
+import { CreateFileSchemaDto } from 'src/dto/create.fileSchema.dto';
+import { FileSchemaService } from 'src/service/fileSchema.service';
 import { GridFsService } from 'src/service/gridfs.service';
 import { ValidationService } from 'src/service/validation.service';
 
@@ -22,6 +24,7 @@ export class FileController {
   constructor(
     private readonly gridFsService: GridFsService,
     private validationService: ValidationService,
+    private fileSchemaService: FileSchemaService,
   ) {}
 
   @Post('upload')
@@ -32,10 +35,26 @@ export class FileController {
       if (!file) {
         throw new Error('Archivo no enviado');
       }
-      const fileId = await this.gridFsService.uploadFile(file);
-      return { fileId };
+
+      // Subir archivo a GridFS
+      const newFile = await this.gridFsService.uploadFile(file);
+
+      // Guardar referencia en la colección `files`
+      const createFileDto: CreateFileSchemaDto = {
+        fileId: newFile,
+        fileName: file.originalname,
+        createdAt: new Date(),
+      };
+      this.fileSchemaService.create(createFileDto);
+
+      return {
+        success: true,
+        message: 'Archivo subido correctamente',
+        fileId: newFile,
+      };
     } catch (error) {
       console.error('Error al subir el archivo: ', error);
+      throw new BadRequestException('Error al subir el archivo', error.message);
     }
   }
 

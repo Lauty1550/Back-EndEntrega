@@ -11,6 +11,7 @@ import { FileModule } from './module/file.module';
 import { PingModule } from './module/ping.module';
 import { ConfigModule } from '@nestjs/config';
 import { CleanBaseModule } from './module/cleanBase.module';
+import { FileSchemaModule } from './module/file.schema.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { CleanBaseModule } from './module/cleanBase.module';
     FileModule,
     PingModule,
     CleanBaseModule,
+    FileSchemaModule,
   ],
   controllers: [AppController],
   providers: [AppService],
