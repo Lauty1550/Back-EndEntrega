@@ -18,6 +18,9 @@ export class Plano {
   @Prop({ required: true })
   proyectoId: string;
 
+  @Prop({ required: true })
+  tipoArchivo: string;
+
   _id: string;
 }
 export const PlanoSchema = SchemaFactory.createForClass(Plano);

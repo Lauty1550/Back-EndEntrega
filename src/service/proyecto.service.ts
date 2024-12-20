@@ -28,6 +28,7 @@ export class ProyectoService {
         especialidad: plano.especialidad,
         etiquetas: plano.etiquetas,
         archivoUrl: plano.archivoUrl,
+        tipoArchivo: plano.tipoArchivo,
         // proyectoId: plano.proyectoId,
       })),
     };

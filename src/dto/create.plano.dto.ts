@@ -27,4 +27,8 @@ export class CreatePlanoDto {
   @IsOptional()
   @IsString()
   proyectoId: string;
+
+  @IsNotEmpty()
+  @IsString()
+  tipoArchivo: string;
 }

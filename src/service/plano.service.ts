@@ -15,6 +15,7 @@ export class PlanoService {
       archivoUrl: plano.archivoUrl,
       especialidad: plano.especialidad,
       etiquetas: plano.etiquetas,
+      tipoArchivo: plano.tipoArchivo,
     };
   }
 

@@ -56,6 +56,7 @@ export class ProyectoController {
   @Get(':id')
   @ApiOperation({ summary: 'Obtener por id' })
   async findOne(@Param('id') id: string) {
+    console.log('id recibida: ', id);
     this.validationService.validateObjectId(id);
     const proyecto = await this.proyectoService.findOne(id);
     if (!proyecto) {
