@@ -1,18 +1,25 @@
-# Usa una imagen base de Node.js basada en Alpine
 FROM node:18-alpine
 
 # Define el directorio de trabajo dentro del contenedor
 WORKDIR /app
 
-# Instala las dependencias necesarias para GraphicsMagick, ImageMagick y Ghostscript
+# Instalar las dependencias necesarias para sharp y otras herramientas
 RUN apk update && apk add --no-cache \
+  bash \
+  build-base \
+  vips-dev \
+  cairo-dev \
+  pango-dev \
+  jpeg-dev \
+  giflib-dev \
+  librsvg-dev \
   imagemagick \
   graphicsmagick \
   ghostscript \
-  bash
+  && rm -rf /var/cache/apk/*  # Limpiar la cache para reducir el tamaño de la imagen
 
 # Copia los archivos package*.json para instalar dependencias
-COPY package*.json ./
+COPY package*.json ./ 
 
 # Instala las dependencias de la aplicación
 RUN npm install

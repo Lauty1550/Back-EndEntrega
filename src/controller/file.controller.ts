@@ -17,6 +17,7 @@ import { CreateFileSchemaDto } from 'src/dto/create.fileSchema.dto';
 import { FileSchemaService } from 'src/service/fileSchema.service';
 import { GridFsService } from 'src/service/gridfs.service';
 import { ValidationService } from 'src/service/validation.service';
+import { PdfConversionService } from 'src/service/pdf-conversion.service';
 
 @ApiTags('Archivo')
 @Controller('Archivo')
@@ -25,6 +26,7 @@ export class FileController {
     private readonly gridFsService: GridFsService,
     private validationService: ValidationService,
     private fileSchemaService: FileSchemaService,
+    private pdfConversionService: PdfConversionService,
   ) {}
 
   @Post('upload')
@@ -39,7 +41,7 @@ export class FileController {
       // Subir archivo a GridFS
       const newFile = await this.gridFsService.uploadFile(file);
 
-      // Guardar referencia en la colección `files`
+      // Guardar referencia en la colección files
       const createFileDto: CreateFileSchemaDto = {
         fileId: newFile,
         fileName: file.originalname,

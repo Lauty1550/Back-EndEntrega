@@ -39,17 +39,14 @@ export class PdfController {
     fs.writeFileSync(tempFilePath, file.buffer);
 
     try {
-      // Convierte el PDF a una única imagen (solo la primera página)
-      const firstPageImagePath =
+      const mergedImagePath =
         await this.pdfConversionService.convertPdfToSingleImage(tempFilePath);
 
-      // Verifica si el archivo temporal existe antes de eliminarlo
       if (fs.existsSync(tempFilePath)) {
         fs.unlinkSync(tempFilePath); // Eliminar el PDF temporal después de la conversión
       }
 
-      // Convierte la ruta relativa a absoluta para res.sendFile
-      const absoluteImagePath = path.resolve(firstPageImagePath);
+      const absoluteImagePath = path.resolve(mergedImagePath);
 
       // Envia la imagen como respuesta
       return res.sendFile(absoluteImagePath, {

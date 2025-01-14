@@ -5,5 +5,6 @@ import { PdfConversionService } from 'src/service/pdf-conversion.service';
 @Module({
   controllers: [PdfController],
   providers: [PdfConversionService],
+  exports: [PdfConversionService],
 })
 export class PdfModule {}
