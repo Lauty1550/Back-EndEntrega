@@ -13,6 +13,7 @@ import { ConfigModule } from '@nestjs/config';
 import { CleanBaseModule } from './module/cleanBase.module';
 import { FileSchemaModule } from './module/file.schema.module';
 import { PdfModule } from './module/pdf-conversion.module';
+import { EtiquetaModule } from './module/etiqueta.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { PdfModule } from './module/pdf-conversion.module';
     CleanBaseModule,
     FileSchemaModule,
     PdfModule,
+    EtiquetaModule,
   ],
   controllers: [AppController],
   providers: [AppService],

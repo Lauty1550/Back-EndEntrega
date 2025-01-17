@@ -26,7 +26,6 @@ export class ProyectoService {
       planos: proyecto.planos.map((plano) => ({
         id: plano._id,
         especialidad: plano.especialidad,
-        etiquetas: plano.etiquetas,
         archivoUrl: plano.archivoUrl,
         tipoArchivo: plano.tipoArchivo,
         // proyectoId: plano.proyectoId,

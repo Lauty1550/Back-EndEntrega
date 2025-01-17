@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
-import { spec } from 'node:test/reporters';
 import { TipoDestino } from 'src/enum/tipo.destino.enum';
 import { TipoObra } from 'src/enum/tipo.obra.enum';
 import { Plano } from './plano.schema';

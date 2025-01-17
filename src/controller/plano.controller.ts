@@ -15,7 +15,6 @@ import {
 import { PlanoService } from 'src/service/plano.service';
 import { CreatePlanoDto } from 'src/dto/create.plano.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { isValidObjectId } from 'mongoose';
 import { ProyectoService } from 'src/service/proyecto.service';
 import { ValidationService } from 'src/service/validation.service';
 
