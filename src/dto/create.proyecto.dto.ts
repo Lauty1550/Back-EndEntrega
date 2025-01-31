@@ -41,8 +41,8 @@ export class CreateProyectoDto {
   antecedente: string;
 
   @IsOptional()
-  @IsBoolean()
-  aprobacion?: boolean;
+  @IsString()
+  aprobacion?: string;
 
   @IsOptional()
   @IsArray()

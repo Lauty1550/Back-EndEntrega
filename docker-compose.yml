@@ -1,19 +1,34 @@
-name: FloorPlan
+name: Floorplan-Management-System
 services:
   app:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: NestJS
+    container_name: Floorplan
     ports:
-      - '3000:3000' # Expone el puerto 3000 de la app
+      - '3000:3000' # Expone el puerto 3000 para la app
     networks:
       - app-network
     volumes:
       - .:/app:cached
     environment:
-      - NODE_ENV=development
+      NODE_ENV: start
     command: npm run start
+
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: Test
+    ports:
+      - '3000:3000' #
+    networks:
+      - app-network
+    volumes:
+      - .:/app:cached
+    environment:
+      NODE_ENV: start:test # Usa la base de datos para testing
+    command: npm run start:test
 
 networks:
   app-network:

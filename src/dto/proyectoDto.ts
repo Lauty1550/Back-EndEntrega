@@ -46,8 +46,8 @@ export class ProyectoDto {
   antecedente: string;
 
   @IsOptional()
-  @IsBoolean()
-  aprobacion: boolean;
+  @IsString()
+  aprobacion: string;
 
   @IsOptional()
   planos: PlanoDto[];

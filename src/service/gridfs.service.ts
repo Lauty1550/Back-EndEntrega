@@ -3,13 +3,16 @@ import { InjectConnection } from '@nestjs/mongoose';
 import { Connection } from 'mongoose';
 import { GridFSBucket, ObjectId } from 'mongodb';
 import { ValidationService } from './validation.service';
+import { FileSchemaService } from './fileSchema.service';
 
 @Injectable()
 export class GridFsService implements OnModuleInit {
   private bucket: GridFSBucket;
-  private validationService: ValidationService;
 
-  constructor(@InjectConnection() private readonly connection: Connection) {}
+  constructor(
+    @InjectConnection() private readonly connection: Connection,
+    private fileSchemaService: FileSchemaService,
+  ) {}
 
   onModuleInit() {
     // Inicializar GridFSBucket solo después de que la conexión esté lista
@@ -25,8 +28,40 @@ export class GridFsService implements OnModuleInit {
   }
 
   async downloadFile(fileId: string, res: any) {
-    const downloadStream = this.bucket.openDownloadStream(new ObjectId(fileId));
-    downloadStream.pipe(res);
+    try {
+      const downloadStream = this.bucket.openDownloadStream(
+        new ObjectId(fileId),
+      );
+
+      downloadStream.on('error', (error) => {
+        console.error('Error downloading file from GridFS:', error);
+        return res.status(404).send('File not found in GridFS');
+      });
+
+      const fileUrl = await this.fileSchemaService.findById(fileId);
+      if (!fileUrl) {
+        return res.status(404).send('File metadata not found');
+      }
+
+      const fileName = fileUrl.fileName;
+      const fileExtension = fileName.split('.').pop()?.toLowerCase();
+      let fileType = 'application/octet-stream'; // Default
+
+      if (fileExtension === 'jpeg') {
+        fileType = 'image/jpeg';
+      } else if (fileExtension === 'png') {
+        fileType = 'image/png';
+      } else if (fileExtension === 'pdf') {
+        fileType = 'application/pdf';
+      }
+
+      res.setHeader('Content-Type', fileType);
+
+      return downloadStream.pipe(res);
+    } catch (error) {
+      console.error('Error downloading file:', error);
+      res.status(500).send('Internal Server Error');
+    }
   }
 
   async deleteFile(fileId: string): Promise<void> {

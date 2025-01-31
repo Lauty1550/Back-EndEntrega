@@ -16,6 +16,12 @@ import { ProyectoService } from 'src/service/proyecto.service';
 import { CreateProyectoDto } from 'src/dto/create.proyecto.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ValidationService } from 'src/service/validation.service';
+import { PlanoController } from './plano.controller';
+import { PlanoService } from 'src/service/plano.service';
+import { Propietario } from 'src/schema/propietario.schema';
+import { PropietarioService } from 'src/service/propietario.service';
+import { DireccionTecnicaService } from 'src/service/direccionTecnica.service';
+import { ProyectistaService } from 'src/service/proyectista.service';
 
 @ApiTags('Proyecto')
 @Controller('Proyecto')
@@ -23,6 +29,10 @@ export class ProyectoController {
   constructor(
     private proyectoService: ProyectoService,
     private validationService: ValidationService,
+    private planoService: PlanoService,
+    private propietarioService: PropietarioService,
+    private direccionTecnicaService: DireccionTecnicaService,
+    private proyectistaService: ProyectistaService,
   ) {}
 
   @Post('Crear')
@@ -69,6 +79,10 @@ export class ProyectoController {
   async remove(@Param('id') id: string) {
     this.validationService.validateObjectId(id);
     const result = await this.proyectoService.remove(id);
+    await this.planoService.removeAllByProyectoId(id);
+    await this.direccionTecnicaService.removeAllByProyectoId(id);
+    await this.propietarioService.removeAllByProyectoId(id);
+    await this.proyectistaService.removeAllByProyectoId(id);
     if (result.deletedCount === 0) {
       throw new NotFoundException('No se encontro el proyecto');
     }

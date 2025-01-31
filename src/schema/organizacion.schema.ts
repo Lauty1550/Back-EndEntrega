@@ -22,6 +22,18 @@ export class Organizacion {
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }] })
   users: User[];
 
+  @Prop({ required: true })
+  letra: string;
+
+  @Prop({ required: true })
+  numero: number;
+
+  @Prop({ required: true })
+  anio: number;
+
+  @Prop({ required: true })
+  partida: string;
+
   _id?: string;
 }
 export const OrganizacionSchema = SchemaFactory.createForClass(Organizacion);

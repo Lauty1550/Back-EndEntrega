@@ -8,8 +8,8 @@ import {
   IsNotEmpty,
   IsOptional,
   IsArray,
+  IsNumber,
 } from 'class-validator';
-import { CreateFormaDto } from './create.forma.dto';
 
 export class CreateOrganizacionDto {
   @IsNotEmpty()
@@ -25,10 +25,23 @@ export class CreateOrganizacionDto {
   datosContacto: string;
 
   @IsOptional()
-  forma?: CreateFormaDto;
-
-  @IsOptional()
   @IsArray()
   @IsString({ each: true })
   users?: string[];
+
+  @IsNotEmpty()
+  @IsString()
+  letra: string;
+
+  @IsNotEmpty()
+  @IsNumber()
+  numero: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  anio: number;
+
+  @IsNotEmpty()
+  @IsString()
+  partida: string;
 }

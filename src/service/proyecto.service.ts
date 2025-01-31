@@ -26,8 +26,8 @@ export class ProyectoService {
       planos: proyecto.planos.map((plano) => ({
         id: plano._id,
         especialidad: plano.especialidad,
-        etiquetas: plano.etiquetas,
         archivoUrl: plano.archivoUrl,
+        tipoArchivo: plano.tipoArchivo,
         // proyectoId: plano.proyectoId,
       })),
     };
@@ -49,6 +49,35 @@ export class ProyectoService {
         { new: true },
       )
       .populate('planos')
+      .exec();
+  }
+
+  async addPropietarioToProyecto(proyectoId: string, propietarioId: string) {
+    const proyecto = await this.proyectoModel.findById(proyectoId).exec();
+    console.log('proyecto prop id ', propietarioId);
+    proyecto.propietario = propietarioId;
+  }
+
+  async addproyectistaToProyecto(proyectoId: string, proyectistaId: string) {
+    this.proyectoModel
+      .findByIdAndUpdate(
+        proyectoId,
+        { $push: { proyectistas: proyectistaId } },
+        { new: true },
+      )
+      .exec();
+  }
+
+  async addDireccionTecnicaToProyecto(
+    proyectoId: string,
+    direccionTecnicaId: string,
+  ) {
+    this.proyectoModel
+      .findByIdAndUpdate(
+        proyectoId,
+        { $push: { direccionTecnica: direccionTecnicaId } },
+        { new: true },
+      )
       .exec();
   }
 

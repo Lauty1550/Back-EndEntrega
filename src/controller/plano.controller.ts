@@ -15,7 +15,6 @@ import {
 import { PlanoService } from 'src/service/plano.service';
 import { CreatePlanoDto } from 'src/dto/create.plano.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { isValidObjectId } from 'mongoose';
 import { ProyectoService } from 'src/service/proyecto.service';
 import { ValidationService } from 'src/service/validation.service';
 
@@ -62,7 +61,7 @@ export class PlanoController {
   }
 
   @Get('Get/:proyectoId')
-  @ApiOperation({ summary: 'Obtener por protecto ID' })
+  @ApiOperation({ summary: 'Obtener por proyecto ID' })
   async getPlanosByProyectoId(@Param('proyectoId') proyectoId: string) {
     return this.planoService.getPlanosByProyectoID(proyectoId);
   }
@@ -75,17 +74,14 @@ export class PlanoController {
     if (!plano) {
       throw new NotFoundException('No se encontro el plano');
     }
-    return { status: HttpStatus.OK, plano };
+    return plano;
   }
 
   @Delete('Borrar/:id')
   @ApiOperation({ summary: 'Borrar un plano' })
   async remove(@Param('id') id: string) {
     this.validationService.validateObjectId(id);
-    const result = await this.planoService.remove(id);
-    if (result.deletedCount === 0) {
-      throw new NotFoundException('No se encontro el plano');
-    }
+    await this.planoService.remove(id);
     return { status: HttpStatus.OK, messege: 'Plano eliminado exitosamente' };
   }
 

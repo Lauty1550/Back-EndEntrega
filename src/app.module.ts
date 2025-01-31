@@ -9,11 +9,22 @@ import { PlanoModule } from './module/plano.module';
 import { UserModule } from './module/user.module';
 import { FileModule } from './module/file.module';
 import { PingModule } from './module/ping.module';
+import { ConfigModule } from '@nestjs/config';
+import { CleanBaseModule } from './module/cleanBase.module';
+import { FileSchemaModule } from './module/file.schema.module';
+import { PdfModule } from './module/pdf-conversion.module';
+import { EtiquetaModule } from './module/etiqueta.module';
+import { PropietarioModule } from './module/propietario.module';
+import { ProyectistaModule } from './module/proyectista.module';
+import { DireccionTecnicaModule } from './module/direccionTecnica.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
     MongooseModule.forRoot(
-      'mongodb+srv://lauty:qazpoeazClewa8W3@ingenieria.jwq3s.mongodb.net/EntregaBackEnd?retryWrites=true&w=majority&appName=Ingenieria',
+      process.env.NODE_ENV === 'start:test'
+        ? process.env.MONGO_URL_TEST
+        : process.env.MONGO_URL,
     ),
     OrganizacionModule,
     FormaModule,
@@ -22,6 +33,13 @@ import { PingModule } from './module/ping.module';
     UserModule,
     FileModule,
     PingModule,
+    CleanBaseModule,
+    FileSchemaModule,
+    PdfModule,
+    EtiquetaModule,
+    PropietarioModule,
+    ProyectistaModule,
+    DireccionTecnicaModule,
   ],
   controllers: [AppController],
   providers: [AppService],
