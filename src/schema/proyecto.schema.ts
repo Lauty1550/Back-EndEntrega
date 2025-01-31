@@ -3,6 +3,9 @@ import mongoose, { HydratedDocument } from 'mongoose';
 import { TipoDestino } from 'src/enum/tipo.destino.enum';
 import { TipoObra } from 'src/enum/tipo.obra.enum';
 import { Plano } from './plano.schema';
+import { Propietario } from './propietario.schema';
+import { Proyectista } from './proyectista.schema';
+import { DireccionTecnica } from './direccionTecnica.schema';
 
 export type ProyectoDocument = HydratedDocument<Proyecto>;
 
@@ -30,10 +33,23 @@ export class Proyecto {
   antecedente: string;
 
   @Prop({ required: false })
-  aprobacion: boolean;
+  aprobacion: string;
 
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Plano' }] })
   planos: Plano[];
+
+  @Prop({ required: false })
+  propietario: string;
+
+  @Prop({
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Proyectista' }],
+  })
+  proyectistas: Proyectista[];
+
+  @Prop({
+    type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'DireccionTecnica' }],
+  })
+  direccionTecnica: DireccionTecnica[];
 
   @Prop({ required: false })
   userId: string;

@@ -53,4 +53,12 @@ export class EtiquetaController {
       throw new BadRequestException('Error al crear etiqueta ', error.message);
     }
   }
+
+  @Delete('Borrar/:etiquetaId')
+  @ApiOperation({ summary: 'Borrar una etiqueta' })
+  async remove(@Param('etiquetaId') etiquetaId: string) {
+    this.validationService.validateObjectId(etiquetaId);
+    await this.etiquetaService.remove(etiquetaId);
+    return { status: HttpStatus.OK, messege: 'Etiqueta eliminada' };
+  }
 }

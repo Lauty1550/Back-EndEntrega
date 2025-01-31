@@ -1,16 +1,4 @@
-import {
-  IsString,
-  IsInt,
-  Min,
-  Max,
-  isString,
-  isInt,
-  IsNotEmpty,
-  IsOptional,
-  IsArray,
-} from 'class-validator';
-import { CreateFormaDto } from './create.forma.dto';
-
+import { IsOptional, IsString, IsNotEmpty, IsNumber } from 'class-validator';
 import { UserOrganizacionDto } from './user.organizacion.dto';
 
 export class OrganizacionDto {
@@ -30,8 +18,21 @@ export class OrganizacionDto {
   @IsString()
   datosContacto: string;
 
-  @IsOptional()
-  forma?: CreateFormaDto;
+  @IsNotEmpty()
+  @IsString()
+  letra: string;
+
+  @IsNotEmpty()
+  @IsNumber()
+  numero: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  anio: number;
+
+  @IsNotEmpty()
+  @IsString()
+  partida: string;
 
   @IsOptional()
   users?: UserOrganizacionDto[];

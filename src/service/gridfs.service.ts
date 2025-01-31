@@ -28,23 +28,40 @@ export class GridFsService implements OnModuleInit {
   }
 
   async downloadFile(fileId: string, res: any) {
-    const downloadStream = this.bucket.openDownloadStream(new ObjectId(fileId));
+    try {
+      const downloadStream = this.bucket.openDownloadStream(
+        new ObjectId(fileId),
+      );
 
-    const fileUrl = await this.fileSchemaService.findById(fileId);
-    const fileName = fileUrl.fileName;
-    const fileExtension = fileName.split('.').pop()?.toLowerCase();
-    let fileType = 'application/octet-stream'; // Default
-    if (fileExtension === 'jpeg') {
-      fileType = 'image/jpeg';
-    } else if (fileExtension === 'png') {
-      fileType = 'image/png';
-    } else if (fileExtension === 'pdf') {
-      fileType = 'application/pdf';
+      downloadStream.on('error', (error) => {
+        console.error('Error downloading file from GridFS:', error);
+        return res.status(404).send('File not found in GridFS');
+      });
+
+      const fileUrl = await this.fileSchemaService.findById(fileId);
+      if (!fileUrl) {
+        return res.status(404).send('File metadata not found');
+      }
+
+      const fileName = fileUrl.fileName;
+      const fileExtension = fileName.split('.').pop()?.toLowerCase();
+      let fileType = 'application/octet-stream'; // Default
+
+      if (fileExtension === 'jpeg') {
+        fileType = 'image/jpeg';
+      } else if (fileExtension === 'png') {
+        fileType = 'image/png';
+      } else if (fileExtension === 'pdf') {
+        fileType = 'application/pdf';
+      }
+
+      res.setHeader('Content-Type', fileType);
+
+      return downloadStream.pipe(res);
+    } catch (error) {
+      console.error('Error downloading file:', error);
+      res.status(500).send('Internal Server Error');
     }
-
-    res.setHeader('Content-Type', fileType);
-
-    return downloadStream.pipe(res);
   }
 
   async deleteFile(fileId: string): Promise<void> {

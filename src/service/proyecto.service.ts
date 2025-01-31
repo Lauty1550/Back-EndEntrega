@@ -52,6 +52,35 @@ export class ProyectoService {
       .exec();
   }
 
+  async addPropietarioToProyecto(proyectoId: string, propietarioId: string) {
+    const proyecto = await this.proyectoModel.findById(proyectoId).exec();
+    console.log('proyecto prop id ', propietarioId);
+    proyecto.propietario = propietarioId;
+  }
+
+  async addproyectistaToProyecto(proyectoId: string, proyectistaId: string) {
+    this.proyectoModel
+      .findByIdAndUpdate(
+        proyectoId,
+        { $push: { proyectistas: proyectistaId } },
+        { new: true },
+      )
+      .exec();
+  }
+
+  async addDireccionTecnicaToProyecto(
+    proyectoId: string,
+    direccionTecnicaId: string,
+  ) {
+    this.proyectoModel
+      .findByIdAndUpdate(
+        proyectoId,
+        { $push: { direccionTecnica: direccionTecnicaId } },
+        { new: true },
+      )
+      .exec();
+  }
+
   async findAll(): Promise<ProyectoDto[]> {
     const proyectos = this.proyectoModel.find().populate('planos').exec();
     return (await proyectos).map((proyecto) => this.mapToDto(proyecto));

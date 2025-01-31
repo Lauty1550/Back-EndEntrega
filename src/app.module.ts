@@ -14,6 +14,9 @@ import { CleanBaseModule } from './module/cleanBase.module';
 import { FileSchemaModule } from './module/file.schema.module';
 import { PdfModule } from './module/pdf-conversion.module';
 import { EtiquetaModule } from './module/etiqueta.module';
+import { PropietarioModule } from './module/propietario.module';
+import { ProyectistaModule } from './module/proyectista.module';
+import { DireccionTecnicaModule } from './module/direccionTecnica.module';
 
 @Module({
   imports: [
@@ -34,6 +37,9 @@ import { EtiquetaModule } from './module/etiqueta.module';
     FileSchemaModule,
     PdfModule,
     EtiquetaModule,
+    PropietarioModule,
+    ProyectistaModule,
+    DireccionTecnicaModule,
   ],
   controllers: [AppController],
   providers: [AppService],

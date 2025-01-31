@@ -23,8 +23,10 @@ export class OrganizacionService {
       nombre: organizacion.nombre,
       direccion: organizacion.direccion,
       datosContacto: organizacion.datosContacto,
-      //  forma: this.mapFormaToDto(organizacion.forma)
-      forma: organizacion.forma,
+      letra: organizacion.letra,
+      numero: organizacion.numero,
+      anio: organizacion.anio,
+      partida: organizacion.partida,
       users: organizacion.users.map((user) => ({
         id: user._id,
         name: user.name,
@@ -96,6 +98,23 @@ export class OrganizacionService {
     if (organizacionDto.datosContacto) {
       organizacion.datosContacto = organizacionDto.datosContacto;
     }
+
+    if (organizacionDto.letra) {
+      organizacion.letra = organizacionDto.letra;
+    }
+
+    if (organizacionDto.anio) {
+      organizacion.anio = organizacionDto.anio;
+    }
+
+    if (organizacionDto.numero) {
+      organizacion.numero = organizacionDto.numero;
+    }
+
+    if (organizacionDto.partida) {
+      organizacion.partida = organizacionDto.partida;
+    }
+
     return organizacion.save();
   }
 }

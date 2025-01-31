@@ -61,7 +61,7 @@ export class PlanoController {
   }
 
   @Get('Get/:proyectoId')
-  @ApiOperation({ summary: 'Obtener por protecto ID' })
+  @ApiOperation({ summary: 'Obtener por proyecto ID' })
   async getPlanosByProyectoId(@Param('proyectoId') proyectoId: string) {
     return this.planoService.getPlanosByProyectoID(proyectoId);
   }
@@ -81,10 +81,7 @@ export class PlanoController {
   @ApiOperation({ summary: 'Borrar un plano' })
   async remove(@Param('id') id: string) {
     this.validationService.validateObjectId(id);
-    const result = await this.planoService.remove(id);
-    if (result.deletedCount === 0) {
-      throw new NotFoundException('No se encontro el plano');
-    }
+    await this.planoService.remove(id);
     return { status: HttpStatus.OK, messege: 'Plano eliminado exitosamente' };
   }
 

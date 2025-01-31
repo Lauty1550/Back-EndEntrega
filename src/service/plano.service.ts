@@ -68,6 +68,7 @@ export class PlanoService {
   }
 
   async remove(id: string): Promise<any> {
+    this.etiquetaService.removeAllByPlanoId(id);
     return this.planoModel.deleteOne({ _id: id }).exec();
   }
 
