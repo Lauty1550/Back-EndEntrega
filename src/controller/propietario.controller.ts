@@ -34,7 +34,7 @@ export class PropietarioController {
     @Body() createPropietarioDto: CreatePropietarioDto,
   ) {
     try {
-      console.log('datos: ', createPropietarioDto);
+      
       this.validationService.validateObjectId(proyectoId);
       createPropietarioDto.proyectoId = proyectoId;
       const propietario =
